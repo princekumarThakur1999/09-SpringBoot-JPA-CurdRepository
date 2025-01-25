@@ -1,11 +1,14 @@
 package com.payment.service;
 
 import com.payment.entity.Employee_Alacriti;
+import com.payment.repo.AlacEmpRepo;
 import com.payment.repo.EmployeeRepo;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,9 +16,12 @@ import java.util.List;
 public class EmployeeService {
 
     private EmployeeRepo empRepo;
-
-    public EmployeeService(EmployeeRepo employeeRepo) {
+    
+    private AlacEmpRepo alacEmpRepo;
+    
+    public EmployeeService(EmployeeRepo employeeRepo, AlacEmpRepo alacEmpRepo) {
         this.empRepo = employeeRepo;
+        this.alacEmpRepo = alacEmpRepo;
     }
 
     public void addEmployee() {
@@ -82,5 +88,42 @@ public class EmployeeService {
         System.out.println(employeeAlacriti);
         return employeeAlacriti;
     }
+
+    //by column sorting getting details
+    public void getEmpbySort(String Emp_alacriti_column) {
+
+        Sort column = Sort.by(Emp_alacriti_column).descending();
+        List<Employee_Alacriti> emps = alacEmpRepo.findAll(column);
+
+        emps.forEach(employeeAlacriti -> System.out.println(employeeAlacriti.getEmployeeId() +" "+employeeAlacriti.getFirstName() + " " +employeeAlacriti.getLastName()+ " " +employeeAlacriti.getEmail()));
+
+    }
+
+    //pagination
+    public void getEmpbyPagination(int pageNo, int pageSize) {
+
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize-1);
+        Page<Employee_Alacriti> pageObj = alacEmpRepo.findAll(pageRequest);
+
+        List<Employee_Alacriti> emps = pageObj.getContent();
+
+        emps.forEach(e -> System.out.println(e.getEmployeeId() +" "+e.getFirstName() + " " +e.getLastName() + " " +e.getEmail()));
+    }
+
+    //QBE -> Query by example  --> this query will be created dynamically at runtime  (if we want to create query dynamically then we have to use this)
+    public void getEmpsbyQBE() {
+        //create emp obje
+        Employee_Alacriti employeeAlacriti = new Employee_Alacriti();
+        employeeAlacriti.setCity("San Francisco"); //setcity type
+
+        Example<Employee_Alacriti> of = Example.of(employeeAlacriti); //create example obj of emp obj
+
+        //findAll emps whose city san francisco
+        for (Employee_Alacriti employee_alacriti : alacEmpRepo.findAll(of)) {
+            System.out.println(employee_alacriti.getEmployeeId() + ""+employee_alacriti.getFirstName() + " " +employee_alacriti.getLastName() + " "+employee_alacriti.getEmail() +" "+employee_alacriti.getPhoneNumber());
+        }
+
+    }
+
 }
 

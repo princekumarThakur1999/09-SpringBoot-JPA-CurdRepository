@@ -24,17 +24,25 @@ public class Application {
 
         //Non Primary column value fetch
         //If we use Optional class it's reducing null pointer exception becs if employeeAlacrity entity class will not fetch from db then employeeAlacrity obj will store null value, Optional value is not throwing null pointer exception
-        for (Employee_Alacriti employeeAlacriti : employeeService.findEmpByFirstName("Nick")) {
+//        for (Employee_Alacriti employeeAlacriti : employeeService.findEmpByFirstName("Nick")) {
+//
+//            System.out.println(employeeAlacriti.getFirstName() + " " + employeeAlacriti.getLastName());
+//        }
+//
+//        //custum query execute and fetch the employee details
+//        for (Employee_Alacriti employeeAlacriti : employeeService.getEmpByLastName("Doe")) {
+//
+//            System.out.println(employeeAlacriti.getFirstName() + " " + employeeAlacriti.getLastName() + " " +employeeAlacriti.getCity());
+//        }
 
-            System.out.println(employeeAlacriti.getFirstName() + " " + employeeAlacriti.getLastName());
-        }
+       // employeeService.getEmpbySort("firstName");
 
-        //custum query execute and fetch the employee details
-        for (Employee_Alacriti employeeAlacriti : employeeService.getEmpByLastName("Doe")) {
+        //pageno = first page (1) and pagesize = each page how many content should populate 3 contant
+       // employeeService.getEmpbyPagination(1,3);
 
-            System.out.println(employeeAlacriti.getFirstName() + " " + employeeAlacriti.getLastName() + " " +employeeAlacriti.getCity());
-        }
-
+        employeeService.getEmpsbyQBE();
     }
+
+
 
 }
