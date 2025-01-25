@@ -2,6 +2,7 @@ package com.payment.service;
 
 import com.payment.entity.Employee_Alacriti;
 import com.payment.repo.EmployeeRepo;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -64,6 +65,22 @@ public class EmployeeService {
 
     public void findEmployee() {
         empRepo.findAll().forEach(System.out::println);
+    }
 
+    public List<Employee_Alacriti> findEmpByFirstName(String firstName) {
+
+        List<Employee_Alacriti> employeeAlacriti = empRepo.findByFirstName(firstName);
+
+        System.out.println(employeeAlacriti);
+        return employeeAlacriti;
+    }
+
+    //custom query --> HQL query
+    public List<Employee_Alacriti> getEmpByLastName(String lastName) {
+        List<Employee_Alacriti> employeeAlacriti = empRepo.getEmpByLastName(lastName);
+
+        System.out.println(employeeAlacriti);
+        return employeeAlacriti;
     }
 }
+
