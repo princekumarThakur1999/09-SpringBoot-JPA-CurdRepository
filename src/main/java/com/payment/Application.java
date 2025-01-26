@@ -1,6 +1,8 @@
 package com.payment;
 
 import com.payment.entity.Employee_Alacriti;
+import com.payment.entity.OrderJacket;
+import com.payment.repo.OrderJacketRepo;
 import com.payment.service.EmployeeService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -40,7 +42,18 @@ public class Application {
         //pageno = first page (1) and pagesize = each page how many content should populate 3 contant
        // employeeService.getEmpbyPagination(1,3);
 
-        employeeService.getEmpsbyQBE();
+       // employeeService.getEmpsbyQBE();
+
+        //Generative Values for entity primary column values
+        OrderJacketRepo contextBean = context.getBean(OrderJacketRepo.class);
+
+        OrderJacket orderJacket = new OrderJacket();
+        orderJacket.setJacketName("Rare Rabbit");
+        orderJacket.setJacketSize("XL");
+        orderJacket.setJacketPrice("1500.00");
+
+        contextBean.save(orderJacket);
+
     }
 
 
